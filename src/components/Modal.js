@@ -23,7 +23,7 @@ const ModalForm = ({item}) => {
                 model: item.model,
                 serial: serial,
                 mac: item.mac,
-                region: item.region,
+                region: region,
                 longitude: item.longitude,
                 latitude: item.latitude,
                 floor: item.floor,
