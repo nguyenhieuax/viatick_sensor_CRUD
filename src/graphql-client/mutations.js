@@ -1,50 +1,16 @@
 import { gql } from '@apollo/client'
 
 const updateDevice = gql`
-mutation updateDevice(
-            $deviceId: Int
-            $application: Int
-            $name: String
-            $model: Int
-            $serial: String
-            $mac: String
-            $region: String
-            $longitude: Float
-            $latitude: Float
-            $floor: Int
-            $distance: Float
-            $remark: String
-            $optional: AWSJSON
-            $active: Boolean
-            $x: Float
-            $y: Float
-            $z: Float
-            $tags: [String]
-) {
-         updateDevice(
-            deviceId: $deviceId
-            application: $application
-            name: $name
-            model: $model
-            serial: $serial
-            mac: $mac
-            region: $region
-            longitude: $longitude
-            latitude: $latitude
-            floor: $floor
-            distance: $distance
-            remark: $remark
-            optional: $optional
-            active: $active
-            x: $x
-            y: $y
-            z: $z
-            tags: $tags
-         ) {
+mutation updateDevice($input: DeviceUpdateInput) {
+         updateDevice(input: $input) {
             deviceId
-            application
+            application {
+             name
+            }
             name
-            model
+            model {
+              name
+            }
             serial
             mac
             region

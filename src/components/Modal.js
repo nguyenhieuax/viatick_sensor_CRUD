@@ -1,9 +1,9 @@
 import React, {  useState } from 'react'
 import {Button, Modal, ModalHeader, ModalBody, FormGroup, Label, Input, ModalFooter} from 'reactstrap'
 import {useMutation} from "@apollo/client";
-import Switch from "react-bootstrap/Switch";
 import { updateDevice} from "../graphql-client/mutations";
 import {FormCheck} from "react-bootstrap";
+import {getSensorsWithIoT} from "../graphql-client/queries";
 
 const ModalForm = ({item}) => {
     const [name, setName] = useState(item.name);
@@ -15,27 +15,33 @@ const ModalForm = ({item}) => {
 
     const updateSensor = () => {
         setIsOpen(false)
+        console.log('application data 000-', item)
         updateSensorData({
             variables: {
-                deviceId: item.deviceId,
-                application: item.application,
-                name: name,
-                model: item.model,
-                serial: serial,
-                mac: item.mac,
-                region: region,
-                longitude: item.longitude,
-                latitude: item.latitude,
-                floor: item.floor,
-                distance: item.distance,
-                remark: item.remark,
-                optional: item.optional,
-                active: isActive,
-                x: item.x,
-                y: item.y,
-                z: item.z,
-                tags: item.tags
-            }
+                input: { deviceId: item.deviceId,
+                    application: parseInt(item.application),
+                    name: name,
+                    model: parseInt(item.model),
+                    serial: serial,
+                    mac: item.mac,
+                    region: region,
+                    longitude: item.longitude,
+                    latitude: item.latitude,
+                    floor: item.floor,
+                    distance: item.distance || 0,
+                    remark: item.remark,
+                    optional: item.optional,
+                    active: isActive,
+                    x: item.x,
+                    y: item.y,
+                    z: item.z,
+                    tags: item.tags || []}
+            },
+            refetchQueries: [
+                {
+                    query: getSensorsWithIoT
+                }
+            ]
         }).then(res => console.log('res of update  ', res ))
             .catch(err => console.log('err udpate', err))
     }
